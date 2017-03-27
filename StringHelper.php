@@ -118,7 +118,13 @@ class StringHelper
 	}
 
 	if (mb_substr($phoneNumber, 0, 1, 'UTF-8') != $prefixNumber) {
-	    return $prefixNumber . mb_substr($phoneNumber, 1, null, 'UTF-8');
+	    
+	    if (mb_strlen($phoneNumber, 'UTF-8') == 11) {
+		return $prefixNumber . mb_substr($phoneNumber, 1, null, 'UTF-8');
+	    } else {
+		return $prefixNumber . $phoneNumber;
+	    }
+	    
 	} else {
 	    return $phoneNumber;
 	}
