@@ -1,0 +1,22 @@
+{
+    "name": "sem-soft/yii2-helpers",
+    "description": "Set of additional basic helpers for Yii2 Framework",
+    "type": "yii2-helpers",
+    "require": {
+        "php": ">=5.4.0",
+        "ext-mbstring": "*",
+        "ext-ctype": "*",
+        "lib-pcre": "*"
+    },
+    "authors": [
+        {
+            "name": "Samsonov Vladimir",
+            "email": "samsonov.sem@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "sem\\helpers\\": ""
+        }
+    }
+}
