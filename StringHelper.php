@@ -87,7 +87,9 @@ class StringHelper
 	    $converter['№'] = $replaceSymbol;
 	}
 
-	return (!$forUrl ? strtr($string, $converter) : mb_strtolower(strtr($string, $converter), 'UTF-8'));
+	$string  = !$forUrl ? strtr($string, $converter) : mb_strtolower(strtr($string, $converter), 'UTF-8');
+
+	return trim(preg_replace("/$replaceSymbol{2,}/", $replaceSymbol, $string), $replaceSymbol);
     }
 
     /**
