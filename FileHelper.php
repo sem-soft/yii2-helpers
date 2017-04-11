@@ -17,7 +17,7 @@ class FileHelper extends ParentFileHelper
      * Метод отдает поданный на вход файл браузеру
      * @param string $filepath полный путь к файлу
      */
-    public static function toStream($filepath)
+    public static function toStream($filepath, $removeAfter = false)
     {
 	
 	if (ob_get_level()) {
@@ -36,6 +36,11 @@ class FileHelper extends ParentFileHelper
 	
 	// читаем файл и отправляем его пользователю
 	echo file_get_contents($filepath);
+	
+	if ($removeAfter) {
+	    unlink($filepath);
+	}
+	
 	die();
 	
     }
