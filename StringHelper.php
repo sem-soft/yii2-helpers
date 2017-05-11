@@ -6,6 +6,7 @@
  */
 
 namespace sem\helpers;
+use \yii\helpers\Html;
 
 /**
  * Предоставляет статические полезные методы для работы со строками или текстом
@@ -202,4 +203,13 @@ class StringHelper
 	return $haystack;
     }
 
+    /**
+     * Производит отчистку строки от HTML
+     * @param string $value
+     * @return string
+     */
+    public static function cleanFromHtml($value)
+    {
+	return Html::encode(strip_tags($value));
+    }
 }
