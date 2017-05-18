@@ -116,6 +116,13 @@ class StringHelper
      */
     public static function normalizePhone($phoneNumber, $prefixNumber = '8')
     {
+	
+	$phoneNumber = preg_replace("/[^0-9+]/", "", $phoneNumber);
+	
+	if (mb_strlen($phoneNumber, 'UTF-8') > 12 || mb_strlen($phoneNumber, 'UTF-8') < 11) {
+	    return false;
+	}
+	
 	if (mb_strlen($phoneNumber, 'UTF-8') == 12 && mb_substr($phoneNumber, 0, 1, 'UTF-8') == '+') {
 	    return $prefixNumber . mb_substr($phoneNumber, 2, null, 'UTF-8');
 	}
