@@ -13,6 +13,27 @@ use yii\helpers\FileHelper as ParentFileHelper;
  */
 class FileHelper extends ParentFileHelper
 {
+    
+    /**
+     * Единица измерени Гигобайт
+     */
+    const UNIT_SIZE_GB = "GB";
+    
+    /**
+     * Единица измерения Мегабайт
+     */
+    const UNIT_SIZE_MB = "MB";
+    
+    /**
+     * Единица измерения Килобайт
+     */
+    const UNIT_SIZE_KB = "KB";
+    
+    /**
+     * Единица измерения байты
+     */    
+    const UNIT_SIZE_BITE = "bytes";
+    
     /**
      * Метод отдает поданный на вход файл браузеру
      * @param string $filepath полный путь к файлу
@@ -45,17 +66,29 @@ class FileHelper extends ParentFileHelper
 	
     }
     
-    public static function formatSize($size, $unit = false)
+    /**
+     * Форматирует размер файла исходя их его "веса" в байтах.
+     * Если принудительно задана единица измерения, то в нее будет выполнен перевод.
+     * 
+     * @param integer $size размер файла в байтах
+     * @param string $unit единица измерения
+     * @param bool $withUnit выводить с указанием единицы измерения или нет
+     * @return string
+     */
+    public static function formatSize($size, $unit = false, $withUnit = true)
     {
-	if ((!$unit && $size >= 1 << 30) || $unit == "GB") {
-	    return number_format($size / (1 << 30), 2) . "GB";
+	if ((!$unit && $size >= 1 << 30) || $unit == self::UNIT_SIZE_GB) {
+	    return number_format($size / (1 << 30), 2) . ($withUnit ? " " . self::UNIT_SIZE_GB : "");
 	}
-	if ((!$unit && $size >= 1 << 20) || $unit == "MB") {
-	    return number_format($size / (1 << 20), 2) . "MB";
+	
+	if ((!$unit && $size >= 1 << 20) || $unit == self::UNIT_SIZE_MB) {
+	    return number_format($size / (1 << 20), 2) . ($withUnit ? " " . self::UNIT_SIZE_MB : "");
 	}
-	if ((!$unit && $size >= 1 << 10) || $unit == "KB") {
-	    return number_format($size / (1 << 10), 2) . "KB";
+	
+	if ((!$unit && $size >= 1 << 10) || $unit == self::UNIT_SIZE_KB) {
+	    return number_format($size / (1 << 10), 2) . ($withUnit ? " " . self::UNIT_SIZE_KB : "");
 	}
-	return number_format($size) . " bytes";
+	
+	return number_format($size) . ($withUnit ? " " . self::UNIT_SIZE_BITE : "");
     }
 }
