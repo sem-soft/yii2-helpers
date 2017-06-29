@@ -25,7 +25,7 @@ class ControllerHelper
      */
     protected function loadModel($className, $id, $errMessage)
     {
-        if (($model = $modelClassName::findOne($id)) !== null) {
+        if (($model = $className::findOne($id)) !== null) {
             
             return $model;
             
