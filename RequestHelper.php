@@ -18,6 +18,7 @@ class RequestHelper
      * Подготавливает информацию из запроса для использования в методе @see \yii\db\ActiveRecord::load()
      * 
      * @param string $formName @see \yii\db\ActiveRecord::formName()
+     * @param string $method метод отправки данных формы
      * @return array
      */
     public static function prepareRequestData($formName, $method = 'post')
