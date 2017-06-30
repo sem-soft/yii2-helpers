@@ -5,6 +5,7 @@
  * @license http://www.opensource.org/licenses/bsd-license.php New BSD License
  */
 namespace sem\helpers;
+
 use yii\web\NotFoundHttpException;
 
 /**
@@ -26,11 +27,10 @@ class ControllerHelper
     public static function loadModel($className, $id, $errMessage)
     {
         if (($model = $className::findOne($id)) !== null) {
-            
+
             return $model;
-            
         }
-        
+
         throw new NotFoundHttpException($errMessage);
     }
 }

@@ -13,59 +13,58 @@ use yii\helpers\FileHelper as ParentFileHelper;
  */
 class FileHelper extends ParentFileHelper
 {
-    
+
     /**
      * Единица измерени Гигобайт
      */
     const UNIT_SIZE_GB = "GB";
-    
+
     /**
      * Единица измерения Мегабайт
      */
     const UNIT_SIZE_MB = "MB";
-    
+
     /**
      * Единица измерения Килобайт
      */
     const UNIT_SIZE_KB = "KB";
-    
+
     /**
      * Единица измерения байты
-     */    
+     */
     const UNIT_SIZE_BITE = "bytes";
-    
+
     /**
      * Метод отдает поданный на вход файл браузеру
      * @param string $filepath полный путь к файлу
      */
     public static function toStream($filepath, $removeAfter = false)
     {
-	
-	if (ob_get_level()) {
-	    ob_end_clean();
-	}
-	
-	// заставляем браузер показать окно сохранения файла
-	header('Content-Description: File Transfer');
-	header('Content-Type: application/octet-stream');
-	header('Content-Disposition: attachment; filename=' . basename($filepath));
-	header('Content-Transfer-Encoding: binary');
-	header('Expires: 0');
-	header('Cache-Control: must-revalidate');
-	header('Pragma: public');
-	header('Content-Length: ' . filesize($filepath));
-	
-	// читаем файл и отправляем его пользователю
-	echo file_get_contents($filepath);
-	
-	if ($removeAfter) {
-	    unlink($filepath);
-	}
-	
-	die();
-	
+
+        if (ob_get_level()) {
+            ob_end_clean();
+        }
+
+        // заставляем браузер показать окно сохранения файла
+        header('Content-Description: File Transfer');
+        header('Content-Type: application/octet-stream');
+        header('Content-Disposition: attachment; filename=' . basename($filepath));
+        header('Content-Transfer-Encoding: binary');
+        header('Expires: 0');
+        header('Cache-Control: must-revalidate');
+        header('Pragma: public');
+        header('Content-Length: ' . filesize($filepath));
+
+        // читаем файл и отправляем его пользователю
+        echo file_get_contents($filepath);
+
+        if ($removeAfter) {
+            unlink($filepath);
+        }
+
+        die();
     }
-    
+
     /**
      * Форматирует размер файла исходя их его "веса" в байтах.
      * Если принудительно задана единица измерения, то в нее будет выполнен перевод.
@@ -77,18 +76,18 @@ class FileHelper extends ParentFileHelper
      */
     public static function formatSize($size, $unit = false, $withUnit = true)
     {
-	if ((!$unit && $size >= 1 << 30) || $unit == self::UNIT_SIZE_GB) {
-	    return number_format($size / (1 << 30), 2) . ($withUnit ? " " . self::UNIT_SIZE_GB : "");
-	}
-	
-	if ((!$unit && $size >= 1 << 20) || $unit == self::UNIT_SIZE_MB) {
-	    return number_format($size / (1 << 20), 2) . ($withUnit ? " " . self::UNIT_SIZE_MB : "");
-	}
-	
-	if ((!$unit && $size >= 1 << 10) || $unit == self::UNIT_SIZE_KB) {
-	    return number_format($size / (1 << 10), 2) . ($withUnit ? " " . self::UNIT_SIZE_KB : "");
-	}
-	
-	return number_format($size) . ($withUnit ? " " . self::UNIT_SIZE_BITE : "");
+        if ((!$unit && $size >= 1 << 30) || $unit == self::UNIT_SIZE_GB) {
+            return number_format($size / (1 << 30), 2) . ($withUnit ? " " . self::UNIT_SIZE_GB : "");
+        }
+
+        if ((!$unit && $size >= 1 << 20) || $unit == self::UNIT_SIZE_MB) {
+            return number_format($size / (1 << 20), 2) . ($withUnit ? " " . self::UNIT_SIZE_MB : "");
+        }
+
+        if ((!$unit && $size >= 1 << 10) || $unit == self::UNIT_SIZE_KB) {
+            return number_format($size / (1 << 10), 2) . ($withUnit ? " " . self::UNIT_SIZE_KB : "");
+        }
+
+        return number_format($size) . ($withUnit ? " " . self::UNIT_SIZE_BITE : "");
     }
 }

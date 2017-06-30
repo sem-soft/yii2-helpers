@@ -4,7 +4,6 @@
  * @copyright Copyright &copy; S.E.M. 2017-
  * @license http://www.opensource.org/licenses/bsd-license.php New BSD License
  */
-
 namespace sem\helpers;
 
 use Yii;
@@ -14,7 +13,7 @@ use Yii;
  */
 class RequestHelper
 {
-    
+
     /**
      * Подготавливает информацию из запроса для использования в методе @see \yii\db\ActiveRecord::load()
      * 
@@ -23,12 +22,12 @@ class RequestHelper
      */
     public static function prepareRequestData($formName)
     {
-	$result = [];
-	
-	if ($data = Yii::$app->request->post()) {
-	    $result[$formName] = $data;
-	}
-	
-	return $result;
+        $result = [];
+
+        if ($data = Yii::$app->request->post()) {
+            $result[$formName] = $data;
+        }
+
+        return $result;
     }
 }

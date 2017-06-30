@@ -13,7 +13,7 @@ use yii\helpers\ArrayHelper as ParentArrayHelper;
  */
 class ArrayHelper extends ParentArrayHelper
 {
-    
+
     /**
      * Производит поиск объекта по значению его поля в массиве объектов
      * 
@@ -24,22 +24,21 @@ class ArrayHelper extends ParentArrayHelper
      */
     public static function searchObject($attribute, $needle, $haystack)
     {
-	foreach ($haystack as $i => $object) {
-	    
-	    if (!is_object($object)) {
-		return false;
-	    }
-	    
-	    if (!isset($object->$attribute)) {
-		return false;
-	    }
-	    
-	    if ($object->$attribute == $needle) {
-		return $object;
-	    }
-	    
-	}
-	
-	return null;
+        foreach ($haystack as $i => $object) {
+
+            if (!is_object($object)) {
+                return false;
+            }
+
+            if (!isset($object->$attribute)) {
+                return false;
+            }
+
+            if ($object->$attribute == $needle) {
+                return $object;
+            }
+        }
+
+        return null;
     }
 }
