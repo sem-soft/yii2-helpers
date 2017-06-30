@@ -20,11 +20,17 @@ class RequestHelper
      * @param string $formName @see \yii\db\ActiveRecord::formName()
      * @return array
      */
-    public static function prepareRequestData($formName)
+    public static function prepareRequestData($formName, $method = 'post')
     {
         $result = [];
 
-        if ($data = Yii::$app->request->post()) {
+        $method = mb_strtolower($method, 'UTF-8');
+        
+        if ($method != 'get') {
+            $method = 'post';
+        }
+        
+        if ($data = Yii::$app->request->$method()) {
             $result[$formName] = $data;
         }
 
