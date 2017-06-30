@@ -23,7 +23,7 @@ class ControllerHelper
      * @return \yii\db\ActiveRecord найденный экземпляр модели
      * @throws NotFoundHttpException
      */
-    protected function loadModel($className, $id, $errMessage)
+    public static function loadModel($className, $id, $errMessage)
     {
         if (($model = $className::findOne($id)) !== null) {
             
