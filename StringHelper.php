@@ -218,4 +218,26 @@ class StringHelper
     {
         return Html::encode(strip_tags($value));
     }
+    
+    /**
+     * Удаляет символы расширенной кодировки utf8mb4 из utf8-строки
+     * 
+     * @param string $string
+     * @param bool $trim производить ли удаление повторяющихся пробелов и табуляций
+     * @return string
+     */
+    public static function rmUtf8Multibite($string, $trim = true)
+    {
+        $result = preg_replace('%(?:
+              \xF0[\x90-\xBF][\x80-\xBF]{2}      # planes 1-3
+            | [\xF1-\xF3][\x80-\xBF]{3}          # planes 4-15
+            | \xF4[\x80-\x8F][\x80-\xBF]{2}      # plane 16
+        )%xs', '', $string);
+        
+        if ($trim) {
+            $result = preg_replace('/\s\s+/', ' ', $result);
+        }
+        
+        return $result;
+    }
 }
