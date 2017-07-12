@@ -235,9 +235,19 @@ class StringHelper
         )%xs', '', $string);
         
         if ($trim) {
-            $result = preg_replace('/\s\s+/', ' ', $result);
+            $result = self::rmMultipleSpaces($result);
         }
         
         return $result;
+    }
+    
+    /**
+     * Производит замену в строке идущих подряд более одного раза поробелов
+     * @param string $string
+     * @return string
+     */
+    public static function rmMultipleSpaces($string)
+    {
+        return preg_replace('/\s\s+/', ' ', $result);
     }
 }
