@@ -248,6 +248,6 @@ class StringHelper
      */
     public static function rmMultipleSpaces($string)
     {
-        return preg_replace('/\s\s+/', ' ', $result);
+        return preg_replace('/\s\s+/', ' ', $string);
     }
 }
