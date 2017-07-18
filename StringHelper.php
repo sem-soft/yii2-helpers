@@ -102,7 +102,7 @@ class StringHelper
     public static function splitByWords($text)
     {
         $matches = [];
-        preg_match_all('/[^\W\d][\w]*/iu', $text, $matches, PREG_PATTERN_ORDER);
+        preg_match_all('/[^\W][\w]*/iu', $text, $matches, PREG_PATTERN_ORDER);
         return !empty($matches) ? $matches[0] : [];
     }
 
