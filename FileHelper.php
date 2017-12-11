@@ -95,11 +95,9 @@ class FileHelper extends ParentFileHelper
 
     /**
      * Автоматически определяет максимально допустимый размер возможного загружаемого файла в байтах
-     * @param string $unit единица измерения
-     * @param bool $withUnit выводить с указанием единицы измерения или нет
-     * @return mixed
+     * @return integer
      */
-    public static function getMaxUploadSize($unit = false, $withUnit = true)
+    public static function getMaxUploadSize()
     {
         $uploadMaxFilesize = self::sizeInBytes(ini_get('upload_max_filesize'));
         $postMaxSize = self::sizeInBytes(ini_get('post_max_size'));
@@ -110,7 +108,7 @@ class FileHelper extends ParentFileHelper
             $limits[] = $postMaxSize;
         }
 
-        return self::formatSize((int) min($limits), $unit, $withUnit);
+        return (int) min($limits);
     }
 
     /**
