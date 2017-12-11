@@ -110,7 +110,7 @@ class FileHelper extends ParentFileHelper
             $limits[] = $postMaxSize;
         }
 
-        return self::fomatSize((int) min($limits), $unit, $withUnit);
+        return self::formatSize((int) min($limits), $unit, $withUnit);
     }
 
     /**
