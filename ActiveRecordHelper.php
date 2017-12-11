@@ -17,10 +17,10 @@ class ActiveRecordHelper
      * Возвращает текст первой ошибки из всех ошибок валидации полей модели,
      * либо false в случае если ошибок валидации нет
      * 
-     * @param \yii\db\ActiveRecord $model
+     * @param \yii\base\Model $model
      * @return string 
      */
-    public static function firstErrorText(\yii\db\ActiveRecord $model)
+    public static function firstErrorText(\yii\base\Model $model)
     {
         if ($model->hasErrors()) {
             $errors = $model->firstErrors;
