@@ -37,6 +37,7 @@ class FileHelper extends ParentFileHelper
     /**
      * Метод отдает поданный на вход файл браузеру
      * @param string $filepath полный путь к файлу
+     * @deprecated @see yii\web\Response::xSendFile()
      */
     public static function toStream($filepath, $removeAfter = false)
     {
@@ -89,5 +90,49 @@ class FileHelper extends ParentFileHelper
         }
 
         return number_format($size) . ($withUnit ? " " . self::UNIT_SIZE_BITE : "");
+    }
+
+
+    /**
+     * Автоматически определяет максимально допустимый размер возможного загружаемого файла в байтах
+     * @param string $unit единица измерения
+     * @param bool $withUnit выводить с указанием единицы измерения или нет
+     * @return mixed
+     */
+    public static function getMaxUploadSize($unit = false, $withUnit = true)
+    {
+        $uploadMaxFilesize = self::sizeInBytes(ini_get('upload_max_filesize'));
+        $postMaxSize = self::sizeInBytes(ini_get('post_max_size'));
+
+        $limits[] = $uploadMaxFilesize;
+
+        if ($postMaxSize > 0) {
+            $limits[] = $postMaxSize;
+        }
+
+        return self::fomatSize((int) min($limits), $unit, $withUnit);
+    }
+
+    /**
+     * Возвращает количество памяти в байтах.
+     *
+     * @param $value количество памяти в отличной от байт единице измерения и задданое как в php.ini (например, 2G, 20M, 1024K)
+     * @return int
+     */
+    public static function sizeInBytes($value)
+    {
+        $value = trim($value);
+        $last = strtolower($value[strlen($value)-1]);
+
+        switch($last) {
+            case 'g':
+                $value *= 1024;
+            case 'm':
+                $value *= 1024;
+            case 'k':
+                $value *= 1024;
+        }
+
+        return (int) $value;
     }
 }
