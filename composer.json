@@ -1,7 +1,7 @@
 {
     "name": "sem-soft/yii2-helpers",
     "description": "Set of additional basic helpers for Yii2 Framework",
-    "license": "BSD 3-Clause",
+    "license": "BSD-3-Clause",
     "type": "yii2-helpers",
     "require": {
         "php": ">=5.4.0",
