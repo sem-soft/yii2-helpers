@@ -37,4 +37,22 @@ class RequestHelper
 
         return $result;
     }
+    
+    /**
+     * Возвращает IP-адрес клиентского запроса
+     *
+     * @return string|null
+     */
+    public static function getUserIp()
+    {
+        $userIp = null;
+        if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+            $userIp = $_SERVER['HTTP_CLIENT_IP'];
+        } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+            $userIp = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        } elseif (!empty($_SERVER['REMOTE_ADDR'])) {
+            $userIp = $_SERVER['REMOTE_ADDR'];
+        }
+        return $userIp;
+    }
 }
