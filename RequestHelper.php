@@ -46,6 +46,7 @@ class RequestHelper
     public static function getUserIp()
     {
         $userIp = null;
+        
         if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
             $userIp = $_SERVER['HTTP_CLIENT_IP'];
         } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
@@ -53,6 +54,11 @@ class RequestHelper
         } elseif (!empty($_SERVER['REMOTE_ADDR'])) {
             $userIp = $_SERVER['REMOTE_ADDR'];
         }
+        
+        if ($userIp) {
+            $userIp = trim(explode(',', $userIp)[0]);
+        }
+        
         return $userIp;
     }
 }
