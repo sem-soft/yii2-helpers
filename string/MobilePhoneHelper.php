@@ -7,6 +7,7 @@
 
 namespace sem\helpers\string;
 
+use Yii;
 use sem\helpers\Html;
 
 /**
@@ -23,43 +24,44 @@ class MobilePhoneHelper
     /**
      * Минимальная длина номера телефона без учета префикса
      */
-    const MOBILE_PHONE_MIN_LENGHT = 11;
+    const MOBILE_PHONE_MIN_LENGHT = 10;
 
     /**
-     * Производит нормализацию 11-значного номера телефона:
-     * если первая его цифра отличается от $prefix, то она заменяется на $prefix.
-     * Либо если длина номера телефона 12 сиволов и первые два символа +X, то они заменяются на $prefix.
-     *
-     * @param string $number номер телефона в виде строки
+     * Производит нормализацию мобильного номера телефона,
+     * выделяя из $phone возможные символы номера телефона и подставляя префикс,
+     * если он отсутствует или требует замены на новый.
+     * Например,
+     * ```php
+     * echo MobilePhoneHelper::normalize('+ (903) 111-22-33', '+7') . "<br>"; // +79031112233
+     * echo MobilePhoneHelper::normalize('+7 903 111-22-33', '+7') . "<br>"; // +79031112233
+     * echo MobilePhoneHelper::normalize('+8 (903) 111-22-33', '+7') . "<br>"; // +79031112233
+     * echo MobilePhoneHelper::normalize('9031112233', '+7') . "<br>"; // +79031112233
+     * echo MobilePhoneHelper::normalize('+9031112233', '8') . "<br>"; // 89031112233
+     * echo MobilePhoneHelper::normalize('+7 (903) 111-22-33', '8') . "<br>"; // 89031112233
+     * echo MobilePhoneHelper::normalize('+8 (903) 111-22-33', '8') . "<br>"; // 89031112233
+     * echo MobilePhoneHelper::normalize('(903) 111-22-33', '8') . "<br>"; // 89031112233
+     * ```
+     * @param string $phone номер телефона в виде строки
      * @param string $prefix телефонный префикс
+     * @param null $encoding кодировка
      * @return false|string
-     * @todo пересмотреть и сделать возможность использования универсального префикса - высчитывать его длину и т.д.
      */
-    public static function normalize($phone, $prefix = '8')
+    public static function normalize($phone, $prefix = '+7', $encoding = null)
     {
+        $phone = preg_replace("/[^0-9+]/ui", "", $phone);
 
-        $phone = preg_replace("/[^0-9+]/", "", $phone);
+        if ($encoding === null) {
+            $encoding = Yii::$app->charset;
+        }
 
-        if (mb_strlen($phone, 'UTF-8') > self::MOBILE_PHONE_MAX_LENGHT || mb_strlen($phone, 'UTF-8') < self::MOBILE_PHONE_MIN_LENGHT) {
+        $phoneLen = mb_strlen($phone, $encoding);
+
+        if ($phoneLen > self::MOBILE_PHONE_MAX_LENGHT || $phoneLen < self::MOBILE_PHONE_MIN_LENGHT) {
             return false;
         }
 
-        if (mb_strlen($phone, 'UTF-8') == self::MOBILE_PHONE_MAX_LENGHT && mb_substr($phone, 0, 1, 'UTF-8') == '+') {
-            return $prefix . mb_substr($phone, 2, null, 'UTF-8');
-        }
-
-        if (mb_substr($phone, 0, 1, 'UTF-8') != $prefix) {
-
-            if (mb_strlen($phone, 'UTF-8') == 11) {
-                return $prefix . mb_substr($phone, 1, null, 'UTF-8');
-            } else {
-                return $prefix . $phone;
-            }
-
-        } else {
-            return $phone;
-        }
-
+        // Добавляем префик с последним self::MOBILE_PHONE_MIN_LENGHT строки
+        return $prefix . mb_substr($phone, -self::MOBILE_PHONE_MIN_LENGHT, null, $encoding);
     }
 
     /**
