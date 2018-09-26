@@ -65,15 +65,16 @@ class MobilePhoneHelper
     }
 
     /**
-     * Преобразует телефонный номер к читабельному виду по маске: (XXX) XXX-XX-XX
+     * Форматирует номер мобильного телефона к выводу в HTML
      *
-     * @param string $phone сплошная последовательность цифр, например 8632216827
+     * @param string $phone сплошная последовательность цифр, например 8632216827 или +79031112233
+     * @param bool $withPrefix включать префикс номера (+7 или 8) в общий вывод
      * @param string $codeTag HTML-тег, в который заворачивается код города
      * @param string $phoneTag HTML-тег, в который заворачивается номер телефона
      * @param array $codeTagOptions массив с дополнительными атрибутами для HTML-тега $codeTag
      * @return string красивый номер, например (863) 221-68-27
      */
-    public static function format($phone, $codeTag = 'span', $phoneTag = '', $codeTagOptions = [])
+    public static function format($phone, $withPrefix = false, $codeTag = 'span', $phoneTag = '', $codeTagOptions = [])
     {
         $codePattern = '($2)';
         $numberPattern = ' $3-$4-$5';
@@ -81,15 +82,19 @@ class MobilePhoneHelper
         if ($codeTag) {
             $tagOptions = '';
             if (!empty($codeTagOptions)) {
-                foreach ($codeTagOptions as $attribute => $value)
+                foreach ($codeTagOptions as $attribute => $value) {
                     $tagOptions .= ' ' . $attribute . '="' . Html::encode($value) . '"';
+                }
             }
             $codePattern = '<' . $codeTag . $tagOptions . '>' . $codePattern . '</' . $codeTag . '>';
         }
 
-        if ($phoneTag)
+        if ($phoneTag) {
             $numberPattern = '<' . $phoneTag . '>' . $numberPattern . '</' . $phoneTag . '>';
+        }
 
-        return preg_replace('/(\d*)(\d{3})(\d{3})(\d{2})(\d{2})$/', $codePattern . $numberPattern, $phone);
+        $format = ($withPrefix ? '$1 ' : '') . $codePattern . $numberPattern;
+
+        return preg_replace('/([\d+]*)(\d{3})(\d{3})(\d{2})(\d{2})$/', $format, $phone);
     }
 }
