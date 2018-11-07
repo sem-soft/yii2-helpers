@@ -1,17 +1,16 @@
 <?php
 /**
  * @author Самсонов Владимир <samsonov.sem@gmail.com>
- * @copyright Copyright &copy; S.E.M. 2017-
+ * @copyright Copyright &copy; S.E.M. 2018-
  * @license http://www.opensource.org/licenses/bsd-license.php New BSD License
  */
-namespace sem\helpers;
 
-use yii\helpers\FileHelper as ParentFileHelper;
+namespace sem\helpers;
 
 /**
  * Предоставляет статические полезные методы для работы с объектами фаловой системы
  */
-class FileHelper extends ParentFileHelper
+class FileHelper extends \yii\helpers\FileHelper
 {
 
     /**
@@ -33,38 +32,6 @@ class FileHelper extends ParentFileHelper
      * Единица измерения байты
      */
     const UNIT_SIZE_BITE = "bytes";
-
-    /**
-     * Метод отдает поданный на вход файл браузеру
-     * @param string $filepath полный путь к файлу
-     * @deprecated @see yii\web\Response::xSendFile()
-     */
-    public static function toStream($filepath, $removeAfter = false)
-    {
-
-        if (ob_get_level()) {
-            ob_end_clean();
-        }
-
-        // заставляем браузер показать окно сохранения файла
-        header('Content-Description: File Transfer');
-        header('Content-Type: application/octet-stream');
-        header('Content-Disposition: attachment; filename=' . basename($filepath));
-        header('Content-Transfer-Encoding: binary');
-        header('Expires: 0');
-        header('Cache-Control: must-revalidate');
-        header('Pragma: public');
-        header('Content-Length: ' . filesize($filepath));
-
-        // читаем файл и отправляем его пользователю
-        echo file_get_contents($filepath);
-
-        if ($removeAfter) {
-            unlink($filepath);
-        }
-
-        die();
-    }
 
     /**
      * Форматирует размер файла исходя их его "веса" в байтах.
@@ -99,10 +66,10 @@ class FileHelper extends ParentFileHelper
      */
     public static function getMaxUploadSize()
     {
-        $uploadMaxFilesize = self::sizeInBytes(ini_get('upload_max_filesize'));
+        $uploadMaxFileSize = self::sizeInBytes(ini_get('upload_max_filesize'));
         $postMaxSize = self::sizeInBytes(ini_get('post_max_size'));
 
-        $limits[] = $uploadMaxFilesize;
+        $limits[] = $uploadMaxFileSize;
 
         if ($postMaxSize > 0) {
             $limits[] = $postMaxSize;
@@ -114,7 +81,7 @@ class FileHelper extends ParentFileHelper
     /**
      * Возвращает количество памяти в байтах.
      *
-     * @param $value количество памяти в отличной от байт единице измерения и задданое как в php.ini (например, 2G, 20M, 1024K)
+     * @param string $value количество памяти в отличной от байт единице измерения и задданое как в php.ini (например, 2G, 20M, 1024K)
      * @return int
      */
     public static function sizeInBytes($value)
