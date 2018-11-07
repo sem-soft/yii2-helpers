@@ -78,9 +78,12 @@ class MultibyteStringHelper
         "\xe2\x80\xa9" => '\t'
     ]) {
 
+
         $needle = array_keys($separators);
         $replacement = array_values($separators);
 
-        return preg_replace($needle, $replacement, $value);
+        return preg_replace(array_map(function ($item) {
+            return "|{$item}|";
+        }, $needle), $replacement, $value);
     }
 }
