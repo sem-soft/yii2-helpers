@@ -10,7 +10,7 @@ namespace sem\helpers\string;
 /**
  * Хелпер для работы с мульбибайтовыми строками
  */
-class MultibiteStringHelper
+class MultibyteStringHelper
 {
 
     /**
