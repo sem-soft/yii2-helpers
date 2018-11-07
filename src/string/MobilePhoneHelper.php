@@ -65,8 +65,12 @@ class MobilePhoneHelper
     }
 
     /**
-     * Форматирует номер мобильного телефона к выводу в HTML
-     *
+     * Форматирует номер мобильного телефона к выводу в HTML.
+     * Например,
+     * ```php
+     * echo MobilePhoneHelper::format(MobilePhoneHelper::normalize('+ (903) 111-22-33', '+7'), true) . "<br>"; // +7 (903) 470-68-34
+     * echo MobilePhoneHelper::format(MobilePhoneHelper::normalize('+9031112233', '8'), true) . "<br>"; // 8 (903) 470-68-34
+     * ```
      * @param string $phone сплошная последовательность цифр, например 8632216827 или +79031112233
      * @param bool $withPrefix включать префикс номера (+7 или 8) в общий вывод
      * @param string $codeTag HTML-тег, в который заворачивается код города
