@@ -6,12 +6,10 @@
  */
 namespace sem\helpers;
 
-use yii\helpers\ArrayHelper as ParentArrayHelper;
-
 /**
  * Предоставляет статические полезные методы для работы с массивами
  */
-class ArrayHelper extends ParentArrayHelper
+class ArrayHelper extends \yii\helpers\ArrayHelper
 {
 
     /**
